@@ -1,0 +1,72 @@
+# ==============================
+# Python
+# ==============================
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+
+# ==============================
+# Virtual Environments
+# ==============================
+.venv/
+venv/
+env/
+
+# ==============================
+# Environment Variables & Secrets
+# ==============================
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ==============================
+# IDE & Editor
+# ==============================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ==============================
+# Logs & Temporary Files
+# ==============================
+*.log
+logs/
+tmp/
+temp/
+*.tmp
+
+# ==============================
+# Local Database & Financial Data
+# ==============================
+data/*.db
+data/*.sqlite
+data/*.sqlite3
+data/private/
+reports/*
+!reports/.gitkeep
+
+# ==============================
+# Testing & Coverage
+# ==============================
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# ==============================
+# Operating System
+# ==============================
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ==============================
+# Jupyter Notebooks
+# ==============================
+.ipynb_checkpoints/
