@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b1020">
+    <title>Finance Intelligence AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <a class="brand" href="/">
+                <span class="brand-icon">F</span>
+                <span>Finance<span class="brand-accent">AI</span>
+                    <small>INTELLIGENCE PLATFORM</small>
+                </span>
+            </a>
+
+            <div class="nav-label">WORKSPACE</div>
+            <button class="nav-item active" data-view="overview">◫ <span>Overview</span></button>
+            <button class="nav-item" data-view="transactions">⇄ <span>Transactions</span></button>
+            <button class="nav-item" data-view="analytics">⌁ <span>AI Analytics</span></button>
+            <button class="nav-item" data-view="forecast">⌁ <span>Cash Flow</span></button>
+            <button class="nav-item" data-view="reports">▤ <span>Reports</span></button>
+
+            <div class="sidebar-bottom">
+                <div class="status-dot"></div>
+                <div><strong>Intelligence Engine</strong><small>Local system · Connected</small></div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div>
+                    <div class="eyebrow">FINANCIAL COMMAND CENTER</div>
+                    <h1 id="pageTitle">Finance Overview</h1>
+                </div>
+                <div class="top-actions">
+                    <select id="financeType" aria-label="Finance type">
+                        <option value="all">All finances</option>
+                        <option value="personal">Personal finance</option>
+                        <option value="business">Business finance</option>
+                    </select>
+                    <button class="primary-button" id="addTransactionBtn">+ Add transaction</button>
+                </div>
+            </header>
+
+            <section class="welcome-panel">
+                <div>
+                    <div class="eyebrow">FINANCIAL INTELLIGENCE · ENTERPRISE</div>
+                    <h2>Understand your money.<br><span>Make smarter decisions.</span></h2>
+                    <p>One intelligent workspace for personal wealth and business cash flow.</p>
+                </div>
+                <div class="welcome-mark">✳</div>
+            </section>
+
+            <section class="metric-grid">
+                <article class="metric-card">
+                    <div class="metric-top"><span>Total income</span><span class="metric-icon green">↗</span></div>
+                    <div class="metric-value" id="totalIncome">$0.00</div>
+                    <div class="metric-note">Recorded income</div>
+                </article>
+                <article class="metric-card">
+                    <div class="metric-top"><span>Total expenses</span><span class="metric-icon red">↘</span></div>
+                    <div class="metric-value" id="totalExpenses">$0.00</div>
+                    <div class="metric-note">Recorded spending</div>
+                </article>
+                <article class="metric-card">
+                    <div class="metric-top"><span>Net cash flow</span><span class="metric-icon blue">◈</span></div>
+                    <div class="metric-value" id="netCashFlow">$0.00</div>
+                    <div class="metric-note">Income minus expenses</div>
+                </article>
+                <article class="metric-card">
+                    <div class="metric-top"><span>Savings rate</span><span class="metric-icon purple">％</span></div>
+                    <div class="metric-value" id="savingsRate">0%</div>
+                    <div class="metric-note">Based on recorded income</div>
+                </article>
+            </section>
+
+            <section class="content-grid">
+                <article class="panel chart-panel">
+                    <div class="panel-heading">
+                        <div><h3>Income vs. expenses</h3><p>Transaction totals by month</p></div>
+                        <span class="panel-tag">ANALYTICS</span>
+                    </div>
+                    <div class="chart-container"><canvas id="cashFlowChart"></canvas></div>
+                </article>
+
+                <article class="panel insight-panel">
+                    <div class="panel-heading">
+                        <div><h3>Intelligence insights</h3><p>Signals from your financial data</p></div>
+                        <span class="sparkle">✳</span>
+                    </div>
+                    <div id="insights" class="insights-list">
+                        <div class="empty-state">Add transactions to generate insights.</div>
+                    </div>
+                </article>
+            </section>
+
+            <section class="panel transactions-panel">
+                <div class="panel-heading">
+                    <div><h3>Recent transactions</h3><p>Your latest recorded activity</p></div>
+                    <button class="text-button" id="viewAllBtn">View all →</button>
+                </div>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr><th>DESCRIPTION</th><th>TYPE</th><th>CATEGORY</th><th>DATE</th><th>AMOUNT</th></tr>
+                        </thead>
+                        <tbody id="transactionRows">
+                            <tr><td colspan="5" class="empty-state">No transactions yet. Add your first transaction.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <footer>Finance Intelligence AI <span>·</span> Enterprise Financial Analytics</footer>
+        </main>
+    </div>
+
+    <div class="modal-backdrop hidden" id="transactionModal">
+        <form class="modal" id="transactionForm">
+            <div class="panel-heading">
+                <div><h3>Add transaction</h3><p>Record income or an expense</p></div>
+                <button type="button" class="close-button" id="closeModal" aria-label="Close">×</button>
+            </div>
+
+            <label>Finance profile
+                <select name="finance_type" required>
+                    <option value="personal">Personal</option>
+                    <option value="business">Business</option>
+                </select>
+            </label>
+            <label>Description
+                <input name="description" maxlength="200" required placeholder="e.g. Monthly salary">
+            </label>
+            <div class="form-row">
+                <label>Transaction type
+                    <select name="transaction_type" required>
+                        <option value="income">Income</option>
+                        <option value="expense">Expense</option>
+                    </select>
+                </label>
+                <label>Amount
+                    <input name="amount" type="number" min="0.01" max="1000000000000" step="0.01" required placeholder="0.00">
+                </label>
+            </div>
+            <div class="form-row">
+                <label>Category
+                    <select name="category" required>
+                        <option>Salary</option><option>Sales</option><option>Investment</option>
+                        <option>Food</option><option>Housing</option><option>Transport</option>
+                        <option>Utilities</option><option>Marketing</option><option>Operations</option>
+                        <option>Healthcare</option><option>Shopping</option><option>Other</option>
+                    </select>
+                </label>
+                <label>Date
+                    <input name="transaction_date" type="date" required>
+                </label>
+            </div>
+            <p class="form-error" id="formError"></p>
+            <button type="submit" class="primary-button full-button">Save transaction</button>
+        </form>
+    </div>
+
+    <div class="toast" id="toast" role="status"></div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
